@@ -141,10 +141,10 @@ def main():
                 print(prediction)
                 class1 = prediction[0,0]
                 class2 = prediction[0,1]
-                if class1 - class2 > 0.5:
-                    st.markdown("**Possibility of COVID.** Confidence: " + str(class1 * 100) + "%")
-                elif class2 - class1 > 0.5:
-                    st.markdown("**Unlikely to have COVID**")
+                if class2 > class1:
+                    st.markdown("**Possibility of COVID.** Confidence: " + str(class2 * 100) + "%")
+                elif class1 > class2:
+                    st.markdown("**Unlikely to have COVID** Confidence: " + str(class1 * 100) + "%")
                 else:
                     st.write("Error! Please upload a better quality image for accuracy.")
                     
