@@ -105,11 +105,12 @@ def main():
         st.sidebar.write("COVID Med uses CT Scans to detect whether the patient is likely to have COVID or not. Upload an image to get started.")
         st.write("---------------------------")
         st.set_option('deprecation.showfileUploaderEncoding', False)
-        image_input = st.sidebar.file_uploader("Choose a file: ", type='png')
+        image_input = st.sidebar.file_uploader("Choose a file: ", type=['png', 'jpg'])
         if image_input:
+            img = image_input.getvalue()
             analyze = st.sidebar.button("Analyze")
             size = st.slider("Adjust image size: ", 300, 1000)
-            st.image(image_input, width=size, height=size)
+            st.image(img, width=size, height=size)
             st.write("-----------------------------------------")
             # Disable scientific notation for clarity 
             np.set_printoptions(suppress=True)
@@ -132,6 +133,7 @@ def main():
             # display the resized image
             # Normalize the image
                 normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
+                normalized_image_array.resize(data.shape)
             # Load the image into the array
                 data[0] = normalized_image_array
             # run the inference
