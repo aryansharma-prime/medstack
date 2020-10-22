@@ -76,7 +76,7 @@ def main():
                 if class1 > class2:
                     st.markdown("EyeMed thinks this is a **Cataract** by " + str(class1 * 100) + "%" )
                 elif class2 > class1:
-                    st.markdown("EyeMed thinks this is **Uveitis** by " + str(class2 * 100) + "%")
+                    st.markdown("EyeMed thinks this is not **Cataract** by " + str(class2 * 100) + "%")
                 else:
                     st.write("We encountered an ERROR. This should be temporary, please try again with a better quality image. Cheers!")
 
