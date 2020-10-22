@@ -154,9 +154,10 @@ def main():
         st.set_option('deprecation.showfileUploaderEncoding', False)
         image_input = st.sidebar.file_uploader("Choose a file: ", type='jpg')
         if image_input:
+            img = image_input.getvalue()
             analyze = st.sidebar.button("Analyze")
             size = st.slider("Adjust image size: ", 300, 1000)
-            st.image(image_input, width=size, height=size)
+            st.image(img, width=size, height=size)
             st.write("-----------------------------------------")
             # Disable scientific notation for clarity 
             np.set_printoptions(suppress=True)
