@@ -74,9 +74,9 @@ def main():
                 class1 = prediction[0,0]
                 class2 = prediction[0,1]
                 if class1 > class2:
-                    st.markdown("EyeMed thinks this is a **Cataract** by " + str(class1 * 100) + "%" )
+                    st.markdown("EyeMed thinks this is a **Cataract** by {:.2f}%".format(class1 * 100) )
                 elif class2 > class1:
-                    st.markdown("EyeMed thinks this is not **Cataract** by " + str(class2 * 100) + "%")
+                    st.markdown("EyeMed thinks this is not **Cataract** by {:.2f}%".format(class2 * 100))
                 else:
                     st.write("We encountered an ERROR. This should be temporary, please try again with a better quality image. Cheers!")
 
@@ -85,7 +85,7 @@ def main():
                 class1 = answer[0,0]
                 class2 = answer[0,1]
                 if class1 > class2:
-                    st.write("Diabetic Retinopathy Detected. Confidence: " + str(class1*100) + "%")
+                    st.write("Diabetic Retinopathy Detected. Confidence: {:.2f}".format(class1 * 100))
                     st.write("-------------------------------")
                 elif class2 > class1:
                     st.write("Diabetic Retinopathy Not Detected.")
@@ -95,10 +95,10 @@ def main():
                 class1 = answer[0,0]
                 class2 = answer[0,1]
                 if class1 > class2:
-                    st.write("Redness Levels: " + str(class1*100) + "%")
+                    st.write("Redness Levels: {:.2f}%".format(class1 * 100))
                     st.write("-------------------------------")
                 elif class2 > class1:
-                    st.write("No Redness Detected. Confidence: " + str(class1*100) + "%")
+                    st.write("No Redness Detected. Confidence: {:.2f}%".format(class2 * 100))
                     st.write("-------------------------------")
 
     elif menu == "COVID Med":
@@ -142,9 +142,9 @@ def main():
                 class1 = prediction[0,0]
                 class2 = prediction[0,1]
                 if class2 > class1:
-                    st.markdown("**Possibility of COVID.** Confidence: " + str(class2 * 100) + "%")
+                    st.markdown("**Possibility of COVID.** Confidence: {:.2f}%".format(class2 * 100))
                 elif class1 > class2:
-                    st.markdown("**Unlikely to have COVID** Confidence: " + str(class1 * 100) + "%")
+                    st.markdown("**Unlikely to have COVID** Confidence: {:.2f}".format(class1 * 100))
                 else:
                     st.write("Error! Please upload a better quality image for accuracy.")
                     
@@ -187,9 +187,9 @@ def main():
                 class1 = prediction[0,0]
                 class2 = prediction[0,1]
                 if class1 - class2 > 0.5:
-                    st.markdown("**Benign Detected.** Confidence: " + str(class1 * 100) + "%")
+                    st.markdown("**Benign Detected.** Confidence: {:.2f}%".format(class1 * 100))
                 elif class2 - class1 > 0.5:
-                    st.markdown("**Malign Detected.** Confidence: " + str(class2 * 100) + "%")
+                    st.markdown("**Malign Detected.** Confidence: {:.2f}".format(class2 * 100))
                 else:
                     st.write("Error! Please upload a better quality image for accuracy.")
 
