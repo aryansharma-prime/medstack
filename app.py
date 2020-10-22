@@ -28,7 +28,8 @@ def main():
         st.write("---------------------------")
         image_input = st.sidebar.file_uploader("Choose an eye image: ", type="jpg")
         if image_input:
-            st.sidebar.image(image_input, width=300, height=300)
+            img = image_input.getvalue()
+            st.sidebar.image(img, width=300, height=300)
 
             detect = st.sidebar.button("Detect Cataract")
 
@@ -63,7 +64,7 @@ def main():
             data[0] = normalized_image_array
 
             size = st.slider("Adjust Image Size: ", 300, 1000)
-            st.image(image_input, width=size, height=size)
+            st.image(img, width=size, height=size)
             st.write("------------------------------------------------------")
             dr = st.sidebar.button("Analyze Diabetic Retinopathy")
             r = st.sidebar.button("Analyze Redness Levels")
