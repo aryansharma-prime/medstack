@@ -28,7 +28,8 @@ def main():
         st.write("---------------------------")
         image_input = st.sidebar.file_uploader("Choose an eye image: ", type="jpg")
         if image_input:
-            st.sidebar.image(image_input, width=300, height=300)
+            img = image_input.getvalue()
+            st.sidebar.image(img, width=300, height=300)
 
             detect = st.sidebar.button("Detect Cataract")
 
@@ -63,7 +64,7 @@ def main():
             data[0] = normalized_image_array
 
             size = st.slider("Adjust Image Size: ", 300, 1000)
-            st.image(image_input, width=size, height=size)
+            st.image(img, width=size, height=size)
             st.write("------------------------------------------------------")
             dr = st.sidebar.button("Analyze Diabetic Retinopathy")
             r = st.sidebar.button("Analyze Redness Levels")
@@ -73,9 +74,9 @@ def main():
                 class1 = prediction[0,0]
                 class2 = prediction[0,1]
                 if class1 > class2:
-                    st.markdown("EyeMed thinks this is a **Cataract** by " + str(class1 * 100) + "%" )
+                    st.markdown("EyeMed thinks this is a **Cataract** by {:.2f}%".format(class1 * 100) )
                 elif class2 > class1:
-                    st.markdown("EyeMed thinks this is **Uveitis** by " + str(class2 * 100) + "%")
+                    st.markdown("EyeMed thinks this is not **Cataract** by {:.2f}%".format(class2 * 100))
                 else:
                     st.write("We encountered an ERROR. This should be temporary, please try again with a better quality image. Cheers!")
 
@@ -84,7 +85,7 @@ def main():
                 class1 = answer[0,0]
                 class2 = answer[0,1]
                 if class1 > class2:
-                    st.write("Diabetic Retinopathy Detected. Confidence: " + str(class1*100) + "%")
+                    st.write("Diabetic Retinopathy Detected. Confidence: {:.2f}".format(class1 * 100))
                     st.write("-------------------------------")
                 elif class2 > class1:
                     st.write("Diabetic Retinopathy Not Detected.")
@@ -94,21 +95,22 @@ def main():
                 class1 = answer[0,0]
                 class2 = answer[0,1]
                 if class1 > class2:
-                    st.write("Redness Levels: " + str(class1*100) + "%")
+                    st.write("Redness Levels: {:.2f}%".format(class1 * 100))
                     st.write("-------------------------------")
                 elif class2 > class1:
-                    st.write("No Redness Detected. Confidence: " + str(class1*100) + "%")
+                    st.write("No Redness Detected. Confidence: {:.2f}%".format(class2 * 100))
                     st.write("-------------------------------")
 
     elif menu == "COVID Med":
         st.sidebar.write("COVID Med uses CT Scans to detect whether the patient is likely to have COVID or not. Upload an image to get started.")
         st.write("---------------------------")
         st.set_option('deprecation.showfileUploaderEncoding', False)
-        image_input = st.sidebar.file_uploader("Choose a file: ", type='png')
+        image_input = st.sidebar.file_uploader("Choose a file: ", type=['png', 'jpg'])
         if image_input:
+            img = image_input.getvalue()
             analyze = st.sidebar.button("Analyze")
             size = st.slider("Adjust image size: ", 300, 1000)
-            st.image(image_input, width=size, height=size)
+            st.image(img, width=size, height=size)
             st.write("-----------------------------------------")
             # Disable scientific notation for clarity 
             np.set_printoptions(suppress=True)
@@ -131,6 +133,7 @@ def main():
             # display the resized image
             # Normalize the image
                 normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
+                normalized_image_array.resize(data.shape)
             # Load the image into the array
                 data[0] = normalized_image_array
             # run the inference
@@ -138,10 +141,10 @@ def main():
                 print(prediction)
                 class1 = prediction[0,0]
                 class2 = prediction[0,1]
-                if class1 - class2 > 0.5:
-                    st.markdown("**Possibility of COVID.** Confidence: " + str(class1 * 100) + "%")
-                elif class2 - class1 > 0.5:
-                    st.markdown("**Unlikely to have COVID**")
+                if class2 > class1:
+                    st.markdown("**Possibility of COVID.** Confidence: {:.2f}%".format(class2 * 100))
+                elif class1 > class2:
+                    st.markdown("**Unlikely to have COVID** Confidence: {:.2f}".format(class1 * 100))
                 else:
                     st.write("Error! Please upload a better quality image for accuracy.")
                     
@@ -151,9 +154,10 @@ def main():
         st.set_option('deprecation.showfileUploaderEncoding', False)
         image_input = st.sidebar.file_uploader("Choose a file: ", type='jpg')
         if image_input:
+            img = image_input.getvalue()
             analyze = st.sidebar.button("Analyze")
             size = st.slider("Adjust image size: ", 300, 1000)
-            st.image(image_input, width=size, height=size)
+            st.image(img, width=size, height=size)
             st.write("-----------------------------------------")
             # Disable scientific notation for clarity 
             np.set_printoptions(suppress=True)
@@ -183,9 +187,9 @@ def main():
                 class1 = prediction[0,0]
                 class2 = prediction[0,1]
                 if class1 - class2 > 0.5:
-                    st.markdown("**Benign Detected.** Confidence: " + str(class1 * 100) + "%")
+                    st.markdown("**Benign Detected.** Confidence: {:.2f}%".format(class1 * 100))
                 elif class2 - class1 > 0.5:
-                    st.markdown("**Malign Detected.** Confidence: " + str(class2 * 100) + "%")
+                    st.markdown("**Malign Detected.** Confidence: {:.2f}".format(class2 * 100))
                 else:
                     st.write("Error! Please upload a better quality image for accuracy.")
 

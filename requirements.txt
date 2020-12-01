@@ -1,0 +1,5 @@
+numpy==1.18.5
+openvino==0.0.1
+Pillow==8.0.0
+streamlit==0.69.2
+tensorflow==2.3.1
